@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_navigation"
+    app:startDestination="@+id/navigation_user_home">
+
+    <fragment
+        android:id="@+id/navigation_user_home"
+        android:name="com.example.handicrafthorizon.User.ui.home.UserHomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_user_home" />
+
+    <fragment
+        android:id="@+id/navigation__user_cart"
+        android:name="com.example.handicrafthorizon.User.ui.cart.UserCartFragment"
+        android:label="Cart"
+        tools:layout="@layout/fragment_user_cart" />
+    <fragment
+        android:id="@+id/navigation_user_orders"
+        android:name="com.example.handicrafthorizon.User.ui.orders.UserOrderFragment"
+        android:label="Orders"
+        tools:layout="@layout/fragment_user_order" />
+
+    <fragment
+        android:id="@+id/navigation_user_profile"
+        android:name="com.example.handicrafthorizon.User.ui.profile.UserProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_user_profile" />
+
+</navigation>
