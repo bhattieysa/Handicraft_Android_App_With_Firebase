@@ -41,7 +41,7 @@ public class ViewProductsFragment extends Fragment {
     Spinner mySpinner;
     String[] Group_List = {"Select Category"};
     private TextView label;
-    List<String> list = new ArrayList<String>(Arrays.asList(Group_List));
+    List<String> list;
     DatabaseReference databaseReference;
     String[] categories_list;
     ProgressDialog progressDialog;
@@ -67,6 +67,7 @@ public class ViewProductsFragment extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                list = new ArrayList<String>(Arrays.asList(Group_List));
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
 
                     String name = dataSnapshot.child("name").getValue(String.class);

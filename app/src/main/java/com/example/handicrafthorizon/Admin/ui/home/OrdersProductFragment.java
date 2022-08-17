@@ -1,4 +1,4 @@
-package com.example.handicrafthorizon.User.ui.orders;
+package com.example.handicrafthorizon.Admin.ui.home;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -15,11 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.handicrafthorizon.R;
-import com.example.handicrafthorizon.User.ui.cart.CartAdapter;
-import com.example.handicrafthorizon.User.ui.cart.CartModel;
+import com.example.handicrafthorizon.User.ui.orders.OrderDetailsAdapter;
+import com.example.handicrafthorizon.User.ui.orders.OrderDetailsModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,19 +29,18 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 
-public class UserOrderFragment extends Fragment {
+public class OrdersProductFragment extends Fragment {
 
 
     RecyclerView recyclerView;
-    ArrayList<OrderModel> list;
-    DatabaseReference databaseReference;
+    ArrayList<OrderDetailsModel> list;
+    DatabaseReference databaseReference,databaseReference1;
     Query applesQuery;
     private FirebaseAuth mAuth;
     FirebaseDatabase database;
-    OrderAdapter adapter;
+    OrderDetailsAdapter adapter;
     private FragmentManager fragmentManager;
     ProgressDialog progressDialog;
     String category;
@@ -51,13 +49,13 @@ public class UserOrderFragment extends Fragment {
     TextView total;
     Integer TotalPrice;
     Integer Quantity=1;
-
+    String Order_id;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        container.removeAllViews();
-        View v1= inflater.inflate(R.layout.fragment_user_order, container, false);
+        View v1= inflater.inflate(R.layout.fragment_orders_product, container, false);
+
         recyclerView=v1.findViewById(R.id.recyclerview);
         placeorder=v1.findViewById(R.id.place_order);
         total=v1.findViewById(R.id.total);
@@ -65,7 +63,7 @@ public class UserOrderFragment extends Fragment {
         recyclerView.setHasFixedSize(false);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 1);
 
-
+        Order_id = getArguments().getString("order_id");
         recyclerView.setLayoutManager(layoutManager);
         progressDialog=new ProgressDialog(getActivity());
         progressDialog.setMessage("Loading...!");
@@ -74,7 +72,7 @@ public class UserOrderFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         databaseReference= FirebaseDatabase.getInstance().getReference("order");
-        applesQuery = databaseReference.orderByChild("user_id").equalTo(user.getUid());
+        applesQuery = databaseReference.orderByChild("order_id").equalTo(Order_id);
         fragmentManager=getParentFragmentManager();
 
 
@@ -84,26 +82,38 @@ public class UserOrderFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list = new ArrayList<>();
                 TotalPrice=0;
-                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
 
-                    String status = dataSnapshot.child("status").getValue(String.class);
-                    String order_id = dataSnapshot.child("order_id").getValue(String.class);
-                    String order_date = dataSnapshot.child("order_date").getValue(String.class);
-                    String total_price = dataSnapshot.child("total_price").getValue(String.class);
+
+                for(DataSnapshot dataSnapshot1: snapshot.getChildren()){
 
 
 
-                    OrderModel model= new OrderModel(total_price,status,order_id,order_date);
-                    list.add(model);
-                }
-                if(list.isEmpty()){
-                    progressDialog.dismiss();
-                    Toast.makeText(getActivity(),"Orders is Empty",Toast.LENGTH_LONG).show();
-                }else {
-                    Collections.reverse(list);
-                    adapter = new OrderAdapter(getActivity(), list, progressDialog, databaseReference,database,fragmentManager);
+
+
+                    for(DataSnapshot dataSnapshot:dataSnapshot1.child("products").getChildren()) {
+
+
+
+
+                        String id = dataSnapshot.child("id").getValue(String.class);
+                        String image = dataSnapshot.child("image").getValue(String.class);
+                        String name = dataSnapshot.child("name").getValue(String.class);
+                        String price = dataSnapshot.child("price").getValue(String.class);
+                        String quantity = dataSnapshot.child("quantity").getValue(String.class);
+
+
+                        OrderDetailsModel model= new OrderDetailsModel(id,image,name,price,quantity);
+                        list.add(model);
+
+                    }
+
+
+                    adapter = new OrderDetailsAdapter(getActivity(), list, progressDialog, databaseReference,database,fragmentManager);
                     recyclerView.setAdapter(adapter);
+
+
                 }
+
             }
 
             @Override
@@ -112,6 +122,8 @@ public class UserOrderFragment extends Fragment {
 
             }
         });
+
+
 
         return v1;
     }

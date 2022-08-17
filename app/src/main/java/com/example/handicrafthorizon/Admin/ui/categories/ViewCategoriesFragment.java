@@ -57,10 +57,11 @@ CategoryAdapter adapter;
 
         fragmentManager=getParentFragmentManager();
 
-        list = new ArrayList<>();
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                list = new ArrayList<>();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
 
                     String name = dataSnapshot.child("name").getValue(String.class);
@@ -76,6 +77,8 @@ CategoryAdapter adapter;
                 if(list.isEmpty()){
                     progressDialog.dismiss();
                     Toast.makeText(getActivity(),"Categories Are Empty",Toast.LENGTH_LONG).show();
+                    adapter = new CategoryAdapter(getActivity(), list, progressDialog, databaseReference);
+                    recyclerView.setAdapter(adapter);
                 }else {
                     adapter = new CategoryAdapter(getActivity(), list, progressDialog, databaseReference);
                     recyclerView.setAdapter(adapter);

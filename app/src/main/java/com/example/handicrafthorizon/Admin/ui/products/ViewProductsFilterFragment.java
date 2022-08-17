@@ -65,10 +65,11 @@ public class ViewProductsFilterFragment extends Fragment {
 
         fragmentManager=getParentFragmentManager();
 
-        list = new ArrayList<>();
+
         applesQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                list = new ArrayList<>();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
 
                     String name = dataSnapshot.child("name").getValue(String.class);

@@ -57,10 +57,11 @@ public class UserHomeFragment extends Fragment {
 
         fragmentManager = getActivity().getSupportFragmentManager();
 
-        list = new ArrayList<>();
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                list = new ArrayList<>();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
 
                     String name = dataSnapshot.child("name").getValue(String.class);

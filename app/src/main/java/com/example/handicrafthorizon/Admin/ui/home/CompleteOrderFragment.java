@@ -1,4 +1,4 @@
-package com.example.handicrafthorizon.User.ui.cart;
+package com.example.handicrafthorizon.Admin.ui.home;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.handicrafthorizon.R;
-import com.example.handicrafthorizon.User.ui.home.UserProductAdapter;
-import com.example.handicrafthorizon.User.ui.home.UserProductsModel;
-import com.example.handicrafthorizon.User.ui.home.UserViewProductsFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,19 +28,17 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
-public class UserCartFragment extends Fragment {
-
-
-
+public class CompleteOrderFragment extends Fragment {
     RecyclerView recyclerView;
-    ArrayList<CartModel> list;
+    ArrayList<OrdersModel> list;
     DatabaseReference databaseReference;
     Query applesQuery;
     private FirebaseAuth mAuth;
     FirebaseDatabase database;
-    CartAdapter adapter;
+    OrdersAdapter adapter;
     private FragmentManager fragmentManager;
     ProgressDialog progressDialog;
     String category;
@@ -53,19 +47,28 @@ public class UserCartFragment extends Fragment {
     TextView total;
     Integer TotalPrice;
     Integer Quantity=1;
-
+    Button complete;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        container.removeAllViews();
-        View v1= inflater.inflate(R.layout.fragment_user_cart, container, false);
+        View v1= inflater.inflate(R.layout.fragment_complete_order, container, false);
+
         recyclerView=v1.findViewById(R.id.recyclerview);
         placeorder=v1.findViewById(R.id.place_order);
         total=v1.findViewById(R.id.total);
         recyclerView=v1.findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(false);
+
+
+        fragmentManager=getParentFragmentManager();
+
+
+
+
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 1);
+
+
         recyclerView.setLayoutManager(layoutManager);
         progressDialog=new ProgressDialog(getActivity());
         progressDialog.setMessage("Loading...!");
@@ -73,9 +76,9 @@ public class UserCartFragment extends Fragment {
         database=FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
-        databaseReference= FirebaseDatabase.getInstance().getReference("cart");
-        applesQuery = databaseReference.orderByChild("user_id").equalTo(user.getUid());
-        fragmentManager=getParentFragmentManager();
+        databaseReference= FirebaseDatabase.getInstance().getReference("order");
+        applesQuery = databaseReference.orderByChild("status").equalTo("Complete");
+
 
 
 
@@ -83,37 +86,29 @@ public class UserCartFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list = new ArrayList<>();
-TotalPrice=0;
+                TotalPrice=0;
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
 
-                    String name = dataSnapshot.child("name").getValue(String.class);
-                    String image = dataSnapshot.child("image").getValue(String.class);
-                    String id = dataSnapshot.child("id").getValue(String.class);
-                    String price = dataSnapshot.child("price").getValue(String.class);
-                    String quantity = dataSnapshot.child("quantity").getValue(String.class);
-                    String user_id = dataSnapshot.child("user_id").getValue(String.class);
-                    String product_id = dataSnapshot.child("product_id").getValue(String.class);
-
-                    Integer intQuantity=Integer.parseInt(quantity);
-                    Integer total1= Integer.parseInt(price)*intQuantity;
-
-                    Log.d("eysa", String.valueOf(total1));
-
-
-                        TotalPrice = TotalPrice + total1;
-                        total.setText(TotalPrice.toString());
+                    String status = dataSnapshot.child("status").getValue(String.class);
+                    String order_id = dataSnapshot.child("order_id").getValue(String.class);
+                    String order_date = dataSnapshot.child("order_date").getValue(String.class);
+                    String total_price = dataSnapshot.child("total_price").getValue(String.class);
+                    String name = dataSnapshot.child("Customer_name").getValue(String.class);
+                    String number = dataSnapshot.child("Customer_number").getValue(String.class);
+                    String address = dataSnapshot.child("Customer_address").getValue(String.class);
+                    String city = dataSnapshot.child("Customer_city").getValue(String.class);
 
 
 
-
-                    CartModel model= new CartModel(image,name,id,user_id,product_id,price,String.valueOf(quantity));
+                    OrdersModel model= new OrdersModel(total_price,status,order_id,order_date,name,number,city,address);
                     list.add(model);
                 }
                 if(list.isEmpty()){
                     progressDialog.dismiss();
-                    Toast.makeText(getActivity(),"Cart is Empty",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"Orders is Empty",Toast.LENGTH_LONG).show();
                 }else {
-                    adapter = new CartAdapter(getActivity(), list, progressDialog, databaseReference,database);
+                    Collections.reverse(list);
+                    adapter = new OrdersAdapter(getActivity(), list, progressDialog, databaseReference,database,fragmentManager);
                     recyclerView.setAdapter(adapter);
                 }
             }
@@ -124,36 +119,6 @@ TotalPrice=0;
 
             }
         });
-
-        placeorder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                Bundle bundle = new Bundle();
-                bundle.putString("total", String.valueOf(TotalPrice));
-
-
-
-
-
-
-
-
-                OrderPlaceFragment orderPlaceFragment = new OrderPlaceFragment();
-                orderPlaceFragment.setArguments(bundle);
-//                fragmentTransaction.addToBackStack("returnFragment");
-                fragmentTransaction.replace(R.id.nav_host_fragment_activity_admin_dashboard1, orderPlaceFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-
-
-            }
-        });
-
-
         return v1;
     }
 }

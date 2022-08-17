@@ -99,6 +99,7 @@ this.database=database;
         holder.Price=category.getPrice();
         holder.id=category.getId();
         holder.Image=category.getImage();
+        holder.Quantity="1".toString();
         holder.addTocart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,9 +122,10 @@ this.database=database;
                                     FirebaseUser user = mAuth.getCurrentUser();
 
                                     String mGroupId = database.getReference().push().getKey();
+                                    database.getReference().child("cart").child(mGroupId).child("id").setValue(mGroupId);
                                     database.getReference().child("cart").child(mGroupId).child("user_id").setValue(user.getUid());
                                     database.getReference().child("cart").child(mGroupId).child("product_id").setValue(holder.id);
-                                    database.getReference().child("cart").child(mGroupId).child("quantity").setValue(1);
+                                    database.getReference().child("cart").child(mGroupId).child("quantity").setValue(holder.Quantity);
                                     database.getReference().child("cart").child(mGroupId).child("name").setValue(holder.Name);
                                     database.getReference().child("cart").child(mGroupId).child("image").setValue(holder.Image);
                                     database.getReference().child("cart").child(mGroupId).child("price").setValue(holder.Price);
@@ -172,6 +174,7 @@ this.database=database;
         String id,Name,Price;
         String Image;
         Button addTocart;
+        String  Quantity;
 
 
 
