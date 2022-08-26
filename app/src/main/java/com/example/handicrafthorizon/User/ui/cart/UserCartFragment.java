@@ -30,6 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -48,11 +49,11 @@ public class UserCartFragment extends Fragment {
     private FragmentManager fragmentManager;
     ProgressDialog progressDialog;
     String category;
-
+    String jsonStr;
     Button placeorder;
     TextView total;
-    Integer TotalPrice;
-    Integer Quantity=1;
+    int TotalPrice;
+    int Quantity=1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,7 +84,7 @@ public class UserCartFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list = new ArrayList<>();
-TotalPrice=0;
+                TotalPrice=0;
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
 
                     String name = dataSnapshot.child("name").getValue(String.class);
@@ -94,14 +95,21 @@ TotalPrice=0;
                     String user_id = dataSnapshot.child("user_id").getValue(String.class);
                     String product_id = dataSnapshot.child("product_id").getValue(String.class);
 
-                    Integer intQuantity=Integer.parseInt(quantity);
-                    Integer total1= Integer.parseInt(price)*intQuantity;
+
+                    Integer intQuantity= 0;
+                    if (quantity != null) {
+                        intQuantity = Integer.parseInt(quantity);
+                    }
+                    Integer total1= 0;
+                    if (price != null) {
+                        total1 = Integer.parseInt(price)*intQuantity;
+                    }
 
                     Log.d("eysa", String.valueOf(total1));
 
 
                         TotalPrice = TotalPrice + total1;
-                        total.setText(TotalPrice.toString());
+                        total.setText(String.valueOf(TotalPrice));
 
 
 
@@ -109,6 +117,8 @@ TotalPrice=0;
                     CartModel model= new CartModel(image,name,id,user_id,product_id,price,String.valueOf(quantity));
                     list.add(model);
                 }
+
+
                 if(list.isEmpty()){
                     progressDialog.dismiss();
                     Toast.makeText(getActivity(),"Cart is Empty",Toast.LENGTH_LONG).show();
@@ -156,4 +166,6 @@ TotalPrice=0;
 
         return v1;
     }
+
+   
 }
