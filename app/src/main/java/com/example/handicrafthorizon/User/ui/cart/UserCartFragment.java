@@ -74,13 +74,12 @@ public class UserCartFragment extends Fragment {
         database=FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
-        databaseReference= FirebaseDatabase.getInstance().getReference("cart");
-        applesQuery = databaseReference.orderByChild("user_id").equalTo(user.getUid());
+        databaseReference= FirebaseDatabase.getInstance().getReference("cart").child(user.getUid());
         fragmentManager=getParentFragmentManager();
 
 
 
-        applesQuery.addValueEventListener(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list = new ArrayList<>();

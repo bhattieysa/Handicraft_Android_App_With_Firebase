@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 import com.example.handicrafthorizon.Admin.ui.products.ProductsModel;
 import com.example.handicrafthorizon.R;
+import com.example.handicrafthorizon.User.ui.cart.CartModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -104,8 +105,7 @@ this.database=database;
             @Override
             public void onClick(View view) {
                 progressDialog.show();
-                mAuth = FirebaseAuth.getInstance();
-                FirebaseUser user = mAuth.getCurrentUser();
+
 
                 databaseReference = FirebaseDatabase.getInstance().getReference().child("cart");
 
@@ -122,16 +122,20 @@ this.database=database;
                                     mAuth = FirebaseAuth.getInstance();
                                     FirebaseUser user = mAuth.getCurrentUser();
 
-                                    String mGroupId = database.getReference().push().getKey();
-                                    database.getReference().child("cart").child(mGroupId).child("id").setValue(mGroupId);
-                                    database.getReference().child("cart").child(mGroupId).child("user_id").setValue(user.getUid());
-                                    database.getReference().child("cart").child(mGroupId).child("product_id").setValue(holder.id);
-                                    database.getReference().child("cart").child(mGroupId).child("quantity").setValue(holder.Quantity);
-                                    database.getReference().child("cart").child(mGroupId).child("name").setValue(holder.Name);
-                                    database.getReference().child("cart").child(mGroupId).child("image").setValue(holder.Image);
-                                    database.getReference().child("cart").child(mGroupId).child("price").setValue(holder.Price);
-                                    Toast.makeText(mCtx,"Add To Cart Successful",Toast.LENGTH_LONG).show();
-                                    progressDialog.dismiss();
+
+
+                                    CartModel model = new CartModel(holder.Image, holder.Name,"",user.getUid(), holder.id, holder.Price, "1");
+                                    FirebaseDatabase.getInstance().getReference("cart")
+                                            .child(user.getUid()).child(holder.Name).setValue(model)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    Toast.makeText(mCtx,"Add To Cart Successful",Toast.LENGTH_LONG).show();
+                                                    progressDialog.dismiss();
+
+                                                }
+                                            });
+
                                 }
                             }
 

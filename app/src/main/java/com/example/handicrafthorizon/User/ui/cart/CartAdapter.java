@@ -64,7 +64,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>{
     DatabaseReference ref;
     Query applesQuery;
     DatabaseReference databaseReference;
-
+    FirebaseDatabase firebaseDatabase;
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
     FirebaseDatabase database;
     private FirebaseAuth mAuth;
     Integer quantity;
@@ -73,7 +75,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>{
         this.mCtx = activity;
         this.categoryList = categoryList;
         this.progressDialog=progressDialog;
-        this.databaseReference=databaseReference;
+
         this.database=database;
 
     }
@@ -89,7 +91,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull CartAdapter.MyViewHolder holder, int position) {
-
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("cart");
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
         progressDialog.dismiss();
 
 
@@ -114,7 +119,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>{
 
 
 
-                Query applesQuery = databaseReference.orderByChild("id").equalTo(holder.id);
+                Query applesQuery = databaseReference.child(firebaseUser.getUid()).child(holder.Name);
 
                 applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -146,7 +151,7 @@ holder.plus.setOnClickListener(new View.OnClickListener() {
     public void onClick(View view) {
 
         quantity=Integer.parseInt(holder.Quantity)+1;
-        databaseReference.child(holder.id).child("quantity").setValue(String.valueOf(quantity));
+        databaseReference.child(firebaseUser.getUid()).child(holder.Name).child("quantity").setValue(String.valueOf(quantity));
 
     }
 });
@@ -157,7 +162,7 @@ holder.plus.setOnClickListener(new View.OnClickListener() {
 
                 if(Integer.parseInt(holder.Quantity)>1) {
                     quantity = Integer.parseInt(holder.Quantity) - 1;
-                    databaseReference.child(holder.id).child("quantity").setValue(String.valueOf(quantity));
+                    databaseReference.child(firebaseUser.getUid()).child(holder.Name).child("quantity").setValue(String.valueOf(quantity));
                 }
             }
         });
