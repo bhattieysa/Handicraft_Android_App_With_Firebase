@@ -22,14 +22,11 @@
                 android:id="@+id/plus"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
-                android:layout_marginTop="20dp"
 
 
                 android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
                 android:background="@drawable/plus"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/delete"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,16 +34,27 @@
                 android:id="@+id/minus"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
-                android:layout_marginTop="20dp"
 
 
                 android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="20dp"
                 android:background="@drawable/minus"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/delete"
                 app:layout_constraintEnd_toStartOf="@+id/quantity"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/delete"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+
+
+                android:background="@drawable/delete"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/plus"
+                app:layout_constraintStart_toEndOf="@+id/minus"
+                app:layout_constraintTop_toBottomOf="@+id/quantity" />
+
+
 
 
             <ImageView
@@ -96,13 +104,10 @@
                 android:id="@+id/quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="20dp"
                 android:text="0"
                 android:textSize="@dimen/_16ssp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/delete"
                 app:layout_constraintEnd_toStartOf="@+id/plus"
                 app:layout_constraintTop_toTopOf="parent" />
 

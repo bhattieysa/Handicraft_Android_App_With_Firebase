@@ -105,6 +105,42 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>{
         holder.Image=category.getImage();
         holder.quantity.setText(category.getQuantity());
         holder.Quantity=category.getQuantity();
+
+
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog.show();
+
+
+
+                Query applesQuery = databaseReference.orderByChild("id").equalTo(holder.id);
+
+                applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                            appleSnapshot.getRef().removeValue();
+                        }
+
+                        progressDialog.dismiss();
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+
+                });
+
+
+
+
+            }
+        });
+
+
 holder.plus.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
@@ -155,7 +191,7 @@ holder.plus.setOnClickListener(new View.OnClickListener() {
         String id,Name,Price;
         String Image;
         Button plus;
-        Button minus;
+        Button minus,delete;
         String Quantity;
 
 
@@ -166,6 +202,7 @@ holder.plus.setOnClickListener(new View.OnClickListener() {
 
             name = itemView.findViewById(R.id.name);
             price = itemView.findViewById(R.id.price);
+            delete = itemView.findViewById(R.id.delete);
 
             image = itemView.findViewById(R.id.image);
             plus = itemView.findViewById(R.id.plus);

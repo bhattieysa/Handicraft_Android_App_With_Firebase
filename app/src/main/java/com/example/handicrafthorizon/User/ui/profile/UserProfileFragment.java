@@ -2,6 +2,7 @@ package com.example.handicrafthorizon.User.ui.profile;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,7 +32,7 @@ import java.util.Map;
 
 public class UserProfileFragment extends Fragment {
 
-    TextView name,email,password;
+    TextView name,email,password,feedback;
     Button logout;
     FirebaseDatabase database;
     DatabaseReference myRef;
@@ -50,7 +51,7 @@ public class UserProfileFragment extends Fragment {
         progressDialog=new ProgressDialog(getActivity());
         progressDialog.setMessage("Loading");
         progressDialog.show();
-
+        feedback=v1.findViewById(R.id.textView13);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,6 +63,16 @@ public class UserProfileFragment extends Fragment {
                 startActivity(new Intent(getActivity(), Login.class));
                 getActivity().finish();
 
+            }
+        });
+
+        feedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mailIntent = new Intent(Intent.ACTION_SENDTO);
+                Uri data = Uri.parse("mailto:?subject=" + "Feed Back From Food MED"+ "&body=" + "body text " + "&to=" + "noorhira755@gmail.com");
+                mailIntent.setData(data);
+                startActivity(Intent.createChooser(mailIntent, "Send mail..."));
             }
         });
 

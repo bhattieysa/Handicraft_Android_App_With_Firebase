@@ -104,7 +104,8 @@ this.database=database;
             @Override
             public void onClick(View view) {
                 progressDialog.show();
-
+                mAuth = FirebaseAuth.getInstance();
+                FirebaseUser user = mAuth.getCurrentUser();
 
                 databaseReference = FirebaseDatabase.getInstance().getReference().child("cart");
 
