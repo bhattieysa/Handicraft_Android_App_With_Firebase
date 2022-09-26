@@ -31,8 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Login extends AppCompatActivity {
-    TextView signup;
-
+    TextView signup,logintxt;
     EditText t1, t2,t3;
     Button login;
     private FirebaseAuth mAuth;
@@ -121,6 +120,7 @@ public class Login extends AppCompatActivity {
             });
 
             login = findViewById(R.id.login_btn);
+            logintxt = findViewById(R.id.login);
             t1 = findViewById(R.id.email);
             t2 = findViewById(R.id.password);
             mAuth = FirebaseAuth.getInstance();

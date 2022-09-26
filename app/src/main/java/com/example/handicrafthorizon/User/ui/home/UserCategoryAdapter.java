@@ -110,7 +110,7 @@ public class UserCategoryAdapter extends RecyclerView.Adapter<UserCategoryAdapte
                 userProfileFragment.setArguments(bundle);
                 fragmentTransaction.addToBackStack("returnFragment");
                 fragmentTransaction.replace(R.id.nav_host_fragment_activity_admin_dashboard1, userProfileFragment);
-                fragmentTransaction.addToBackStack(null);
+               // fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 
 

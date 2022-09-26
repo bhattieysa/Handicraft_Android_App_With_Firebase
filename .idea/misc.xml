@@ -3,7 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Ali Mirza/StudioProjects/Handicraft_Android_App_With_Firebase/app/src/main/res/drawable/login_btn.xml" value="0.136" />
+        <entry key="..\:/Users/Ali Mirza/StudioProjects/Handicraft_Android_App_With_Firebase/app/src/main/res/layout/activity_admin_dashboard.xml" value="0.20102564102564102" />
         <entry key="..\:/Users/Ali Mirza/StudioProjects/Handicraft_Android_App_With_Firebase/app/src/main/res/layout/activity_login.xml" value="0.18425925925925926" />
+        <entry key="..\:/Users/Ali Mirza/StudioProjects/Handicraft_Android_App_With_Firebase/app/src/main/res/layout/activity_signup.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Ali Mirza/StudioProjects/Handicraft_Android_App_With_Firebase/app/src/main/res/layout/activity_splash.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Ali Mirza/StudioProjects/Handicraft_Android_App_With_Firebase/app/src/main/res/layout/activity_user_dashboard.xml" value="0.20102564102564102" />
+        <entry key="..\:/Users/Ali Mirza/StudioProjects/Handicraft_Android_App_With_Firebase/app/src/main/res/layout/cart_list.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Ali Mirza/StudioProjects/Handicraft_Android_App_With_Firebase/app/src/main/res/layout/categories_spinner.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Ali Mirza/StudioProjects/Handicraft_Android_App_With_Firebase/app/src/main/res/layout/fragment_products.xml" value="0.20102564102564102" />
+        <entry key="..\:/Users/Ali Mirza/StudioProjects/Handicraft_Android_App_With_Firebase/app/src/main/res/layout/fragment_user_home.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Ali Mirza/StudioProjects/Handicraft_Android_App_With_Firebase/app/src/main/res/layout/fragment_user_view_products.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Ali Mirza/StudioProjects/Handicraft_Android_App_With_Firebase/app/src/main/res/layout/order_list.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Ali Mirza/StudioProjects/Handicraft_Android_App_With_Firebase/app/src/main/res/layout/user_product_list.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Ali Mirza/StudioProjects/Handicraft_Android_App_With_Firebase/app/src/main/res/layout/view_categories_list.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Ali Mirza/StudioProjects/Handicraft_Android_App_With_Firebase/app/src/main/res/menu/user_bottom_nav_menu.xml" value="0.20102564102564102" />
         <entry key="app/src/main/res/drawable/bnv_tab_item_foreground.xml" value="0.296" />
         <entry key="app/src/main/res/drawable/delete.xml" value="0.282" />
         <entry key="app/src/main/res/drawable/et_bg.xml" value="0.326" />
