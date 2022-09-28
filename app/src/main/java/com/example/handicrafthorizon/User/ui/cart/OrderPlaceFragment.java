@@ -37,7 +37,7 @@ import java.util.Locale;
 
 public class OrderPlaceFragment extends Fragment {
 
-TextView name,address,number,city;
+TextView names,addresss,numbers,citys;
 Button order;
 ProgressDialog progressDialog;
     FirebaseDatabase database;
@@ -57,10 +57,10 @@ ProgressDialog progressDialog;
         // Inflate the layout for this fragment
         View v1= inflater.inflate(R.layout.fragment_order_place, container, false);
 
-        name=v1.findViewById(R.id.name);
-        address=v1.findViewById(R.id.address);
-        number=v1.findViewById(R.id.number);
-        city=v1.findViewById(R.id.city);
+        names=v1.findViewById(R.id.name);
+        addresss=v1.findViewById(R.id.address);
+        numbers=v1.findViewById(R.id.number);
+        citys=v1.findViewById(R.id.city);
         order=v1.findViewById(R.id.order);
         progressDialog=new ProgressDialog(getActivity());
         progressDialog.setMessage("Loading...!");
@@ -69,34 +69,35 @@ ProgressDialog progressDialog;
         order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog.show();
 
-                 Name=name.getText().toString();
-                 Address=address.getText().toString();
-                 Number= number.getText().toString();
-                 City=city.getText().toString();
+                 Name=names.getText().toString();
+                 Address=addresss.getText().toString();
+                 Number= numbers.getText().toString();
+                 City=citys.getText().toString();
 
                 if (Name.isEmpty()) {
-                    name.setError("Full Name Cant't Be Blank");
-                    name.requestFocus();
+                    names.setError("Full Name Cant't Be Blank");
+                    names.requestFocus();
                     return;
                 }
 
                 if (Address.isEmpty()) {
 
-                    address.setError("Address Cant't Be Blank");
-                    address.requestFocus();
+                    addresss.setError("Address Cant't Be Blank");
+                    addresss.requestFocus();
                     return;
                 }
                 if (Number.isEmpty()) {
 
-                    number.setError("Number Cant't Be Blank");
-                    number.requestFocus();
+                    numbers.setError("Number Cant't Be Blank");
+                    numbers.requestFocus();
                     return;
                 }
                 if (City.isEmpty()) {
 
-                    city.setError("City Cant't Be Blank");
-                    city.requestFocus();
+                    citys.setError("City Cant't Be Blank");
+                    citys.requestFocus();
                     return;
                 }
 
@@ -110,7 +111,7 @@ ProgressDialog progressDialog;
                 String formattedDate = df.format(c);
 
 
-                 mGroupId = database.getReference().push().getKey();
+                mGroupId = database.getReference().push().getKey();
                 database.getReference().child("order").child(mGroupId).child("order_id").setValue(mGroupId);
                 database.getReference().child("order").child(mGroupId).child("user_id").setValue(user.getUid());
                 database.getReference().child("order").child(mGroupId).child("total_price").setValue(TotalPrice);
@@ -136,8 +137,6 @@ ProgressDialog progressDialog;
                             String user_id = dataSnapshot.child("user_id").getValue(String.class);
                             String product_id = dataSnapshot.child("product_id").getValue(String.class);
 
-
-
                             String mGroupId1 = database.getReference().push().getKey();
                             database.getReference().child("order").child(mGroupId).child("products").child(mGroupId1).child("id").setValue(product_id);
                             database.getReference().child("order").child(mGroupId).child("products").child(mGroupId1).child("name").setValue(name);
@@ -145,17 +144,12 @@ ProgressDialog progressDialog;
                             database.getReference().child("order").child(mGroupId).child("products").child(mGroupId1).child("quantity").setValue(quantity);
                             database.getReference().child("order").child(mGroupId).child("products").child(mGroupId1).child("image").setValue(image);
 
-                            snapshot.getRef().removeValue();
-                            Toast.makeText(getActivity(),"Order Place Successful",Toast.LENGTH_LONG).show();
 
-                            Intent intent=new Intent(getActivity(), UserDashboard.class);
-                            startActivity(intent);
-                            getActivity().finish();
-                            progressDialog.dismiss();
 
 
                         }
 
+                        snapshot.getRef().removeValue();
                     }
 
                     @Override
@@ -164,6 +158,21 @@ ProgressDialog progressDialog;
 
                     }
                 });
+
+
+
+                names.setText("");
+                addresss.setText("");
+                citys.setText("");
+                numbers.setText("");
+
+                Toast.makeText(getActivity(),"Order Place Successful",Toast.LENGTH_LONG).show();
+
+                Intent intent=new Intent(getActivity(), UserDashboard.class);
+                startActivity(intent);
+                getActivity().finish();
+                progressDialog.dismiss();
+
 
             }
         });

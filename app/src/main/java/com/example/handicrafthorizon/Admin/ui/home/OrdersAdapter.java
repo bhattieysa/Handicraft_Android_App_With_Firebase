@@ -61,7 +61,6 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyViewHold
     private Context mCtx;
     private static final int REQUEST_CALL = 1;
     private ArrayList<OrdersModel> categoryList;
-
     private FragmentManager fragmentManager;
     ProgressDialog progressDialog;
     AlertDialog alertDialog;
@@ -114,25 +113,23 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyViewHold
             holder.complete.setVisibility(View.GONE);
 
         }
+
         holder.orderid=category.getOrder_id();
-        holder.card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                Bundle bundle = new Bundle();
-                bundle.putString("order_id", holder.orderid);
-
-
-
-                OrdersProductFragment userProfileFragment = new OrdersProductFragment();
-                userProfileFragment.setArguments(bundle);
-                fragmentTransaction.addToBackStack("returnFragment");
-                fragmentTransaction.replace(R.id.nav_host_fragment_activity_admin_dashboard, userProfileFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-
-            }
-        });
+//        holder.card.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                Bundle bundle = new Bundle();
+//                bundle.putString("order_id", holder.orderid);
+//                OrdersProductFragment userProfileFragment = new OrdersProductFragment();
+//                userProfileFragment.setArguments(bundle);
+//                fragmentTransaction.addToBackStack("returnFragment");
+//                fragmentTransaction.replace(R.id.nav_host_fragment_activity_admin_dashboard, userProfileFragment);
+//                fragmentTransaction.addToBackStack(null);
+//                fragmentTransaction.commit();
+//
+//            }
+//        });
 
         holder.complete.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -142,11 +142,13 @@ progressDialog.dismiss();
                 mySpinner.setAdapter(new ProductsFragment.MyCustomAdapter(getActivity(), R.layout.categories_spinner, Group_List));
                 progressDialog.dismiss();
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e("error", "onCancelled", databaseError.toException());
                 progressDialog.dismiss();
             }
+
         });
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,7 +166,6 @@ progressDialog.dismiss();
         database=FirebaseDatabase.getInstance();
         storage=FirebaseStorage.getInstance();
 
-
         launcher=registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
             @Override
             public void onActivityResult(Uri result) {
@@ -173,6 +174,7 @@ progressDialog.dismiss();
                 imageData=result;
             }
         });
+
 
         image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,6 +186,7 @@ progressDialog.dismiss();
             }
         });
 
+        
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
